@@ -175,13 +175,6 @@ scripts/                 # helper scripts for collecting baselines
 
 ---
 
-## IP / data safety
-
-This project is **general LLM fine-tuning infrastructure**. It is intentionally
-not a recommender system. See `docs/ip_safety.md` for details. All bundled
-examples use public models and synthetic or public datasets.
-
----
 
 ## Roadmap
 
