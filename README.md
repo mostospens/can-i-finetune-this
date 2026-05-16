@@ -166,7 +166,7 @@ Highlights (more in the doc):
 ```
 src/canifinetune/        # package code (estimator, bench, recipes, reports, cli)
 benchmarks/              # configs/, results/ (JSON), calibration/
-docs/                    # design, memory model, troubleshooting, IP safety
+docs/                    # design, memory model, troubleshooting
 examples/                # end-to-end recipe folders
 tests/                   # pytest tests (CPU-only, no large downloads)
 scripts/                 # helper scripts for collecting baselines
@@ -174,7 +174,6 @@ scripts/                 # helper scripts for collecting baselines
 ```
 
 ---
-
 
 ## Roadmap
 

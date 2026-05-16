@@ -54,5 +54,3 @@ measure real VRAM on your machine.
   far too small for any real fine-tune. Bring your own data.
 - This recipe assumes a single GPU. For multi-GPU, regenerate with `accelerate`
   / DeepSpeed integration (not yet in `canifinetune`).
-- No proprietary data, code, or model weights are bundled. See the project's
-  `docs/ip_safety.md`.

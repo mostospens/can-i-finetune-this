@@ -1,7 +1,7 @@
 """Generate a tiny synthetic causal-LM batch for benchmark runs.
 
-We do not download any dataset. The runner only needs *shape-realistic* tokens
-to measure VRAM, and synthetic data avoids dataset-license questions entirely.
+The runner only needs shape-realistic tokens to measure VRAM, so this module
+fabricates them in memory instead of pulling a dataset off the Hub.
 """
 
 from __future__ import annotations
@@ -50,10 +50,9 @@ def make_batch(
 
 
 def make_text_dataset(num_rows: int, seq_len_chars: int = 256) -> list[dict[str, str]]:
-    """A trivial public-domain-style instruction dataset for recipe smoke tests.
+    """A trivial instruction dataset for recipe smoke tests.
 
-    Every row is the same template, varying only by an index. The contents are
-    intentionally generic; no proprietary text appears here.
+    Every row is the same template, varying only by an index.
     """
     rows = []
     for i in range(num_rows):
