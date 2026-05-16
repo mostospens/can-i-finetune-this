@@ -28,6 +28,33 @@ canifinetune report   --benchmarks benchmarks/results --out report.md
 canifinetune compare  --benchmarks benchmarks/results --out compare.md
 ```
 
+What `canifinetune estimate` actually prints:
+
+```text
++-------- Qwen/Qwen2.5-1.5B-Instruct  (qlora) --------+
+| feasible: YES    ratio = 0.20    confidence = medium |
++------------------------------------------------------+
+       Memory breakdown (GB)
++---------------------------------+
+| Component             |   Value |
+|-----------------------+---------|
+| static model          |   0.737 |
+| quantization overhead |   0.018 |
+| trainable params      |  4.4 MB |
+| gradients             |   0.008 |
+| optimizer states      |   0.010 |
+| activations           |   0.328 |
+| CUDA / fragmentation  |   1.280 |
+| safety margin         |   0.800 |
+| total                 |   3.163 |
++---------------------------------+
+```
+
+Static estimate says 3.16 GB; on a real RTX 4080 the same config measures
+7.10 GB (heavy bitsandbytes unpacking buffers at seq_len=2048). `canifinetune
+bench` and `canifinetune calibrate` close that gap on your machine —
+that is the *point* of the project.
+
 ---
 
 ## Install

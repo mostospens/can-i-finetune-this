@@ -56,7 +56,7 @@ def cmd_doctor(
 
     report = run_doctor()
     if json_out:
-        console.print_json(to_json(report.to_dict()))
+        print(to_json(report.to_dict()))
         return
 
     table = Table(title="canifinetune doctor", show_lines=False)
@@ -167,7 +167,7 @@ def cmd_estimate(
         raise typer.Exit(2)
 
     if json_out:
-        console.print_json(to_json(est.model_dump()))
+        print(to_json(est.model_dump()))
         return
 
     _print_estimate(est)
@@ -250,7 +250,7 @@ def cmd_recommend(
         raise typer.Exit(2)
 
     if json_out:
-        console.print_json(to_json([r.model_dump() for r in recs]))
+        print(to_json([r.model_dump() for r in recs]))
         return
 
     if not recs:
@@ -333,7 +333,7 @@ def cmd_bench(
     result.save(path)
 
     if json_out:
-        console.print_json(to_json(result.model_dump()))
+        print(to_json(result.model_dump()))
     else:
         _print_bench_summary(result, path)
 
@@ -392,7 +392,7 @@ def cmd_calibrate(
     save_calibration(calib, target)
 
     if json_out:
-        console.print_json(to_json(calib.model_dump()))
+        print(to_json(calib.model_dump()))
         return
 
     console.print(
